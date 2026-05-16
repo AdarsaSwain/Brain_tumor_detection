@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Classification - NeuroScan AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <nav class="topnav">
+        <div class="topnav_left">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            <a href="/">NeuroScan AI</a>
+        </div>
+        <div class="topnav_right">
+            <a href="/" style="text-decoration: none; color: var(--primary); font-weight: 600;"><i class="fa-solid fa-house"></i> Home</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card upload-zone">
+            <h2 style="margin-bottom: 1.5rem;">Binary Classification</h2>
+            <p style="margin-bottom: 2rem;">Upload a Brain MRI image to detect the presence of a tumor.</p>
+
+            <form id="uploadImage" method="post" enctype="multipart/form-data">
+                <input type="file" name="image" id="image-input" accept="image/*" required>
+                
+                <div class="image-preview-wrapper">
+                    <img id="image-preview" alt="Preview">
+                    <div id="preview-placeholder" style="color: var(--text-muted);">
+                        <i class="fa-solid fa-image" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+                        Select an image
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Run Detection</button>
+            </form>
+
+            <h2 id="result" class="result-text"></h2>
+
+            <div id="additional-info" class="info-grid" style="display: none;">
+                <div class="info-card">
+                    <h3><i class="fa-solid fa-hand-dots"></i> Symptoms</h3>
+                    <ul>
+                        <li>Headache: persistent or severe</li>
+                        <li>Muscular: difficulty walking</li>
+                        <li>Cognitive: speech difficulties</li>
+                        <li>Gastrointestinal: nausea/vomiting</li>
+                        <li>Whole body: dizziness, fatigue</li>
+                        <li>Sensory: reduced sensation</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fa-solid fa-kit-medical"></i> Treatment</h3>
+                    <ul>
+                        <li>Surgery</li>
+                        <li>Chemotherapy</li>
+                        <li>Clinical trials</li>
+                        <li>Radiation therapy</li>
+                        <li>Targeted drug therapy</li>
+                        <li>Follow-up care</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        $(function () {
+            const $preview = $('#image-preview');
+            const $placeholder = $('#preview-placeholder');
+            const $info = $('#additional-info');
+            const $result = $('#result');
+
+            $('#image-input').on('change', function(e) {
+                $result.text("");
+                $info.hide();
+                
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $preview.attr('src', e.target.result).show();
+                        $placeholder.hide();
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $('#uploadImage').on('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                
+                $result.text("Analyzing...").css('color', 'var(--text-muted)');
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/binary.html',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        $result.text(data.result);
+                        if (data.result === "Tumor Detected") {
+                            $result.css('color', '#ef4444'); // Red
+                            $info.fadeIn();
+                        } else {
+                            $result.css('color', '#10b981'); // Green
+                            $info.hide();
+                        }
+                    },
+                    error: function() {
+                        $result.text("Error occurred during analysis.").css('color', '#ef4444');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

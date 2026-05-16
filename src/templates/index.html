@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Tumor Detection - AI Diagnostic Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="topnav">
+        <div class="topnav_left">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            <a href="/">NeuroScan AI</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Advanced Brain Tumor Analysis</h1>
+            <p>Empowering medical diagnostics with state-of-the-art Deep Learning models for detection and segmentation.</p>
+            
+            <div class="btn-container">
+                <a href="binary.html" class="btn">
+                    <i class="fa-solid fa-microscope"></i>
+                    <span>Binary Classification</span>
+                    <small style="color: var(--text-muted); margin-top: 0.5rem;">Detect presence of tumor</small>
+                </a>
+                <a href="multi.html" class="btn">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Multi-Modal Analysis</span>
+                    <small style="color: var(--text-muted); margin-top: 0.5rem;">Identify tumor type (Glioma, etc.)</small>
+                </a>
+                <a href="segment.html" class="btn">
+                    <i class="fa-solid fa-draw-polygon"></i>
+                    <span>Tumor Segmentation</span>
+                    <small style="color: var(--text-muted); margin-top: 0.5rem;">Pixel-perfect localization</small>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.875rem;">
+        &copy; 2026 NeuroScan AI. All rights reserved.
+    </footer>
+</body>
+</html>
