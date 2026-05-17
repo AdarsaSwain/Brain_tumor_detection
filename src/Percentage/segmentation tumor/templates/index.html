@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Apr 19 08:22:56 2023
+
+@author: 91628
+"""
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Display Tumor</title>
+  </head>
+  <body>
+    <h1>Display Tumor</h1>
+    <form method="POST" action="{{ url_for('process') }}" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Process">
+    </form>
+  </body>
+</html>
